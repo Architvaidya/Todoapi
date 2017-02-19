@@ -28,7 +28,20 @@ app.get('/', function (req, res) {
 
 // GET /todos
 app.get('/todos', function (req, res) {
-	res.json(todos);
+	var queryParams = req.query;
+	var filteredTodos = todos;
+	if(queryParams.hasOwnProperty('completed') && queryParams.completed === 'true'){
+		//console.log('true');
+		filteredTodos = _.where(filteredTodos, {completed: true});
+		
+	}else if(queryParams.hasOwnProperty('completed') && queryParams.completed === 'false'){
+		//console.log('false');
+		filteredTodos = _.where(filteredTodos, {completed: false});
+	}else{
+		res.status(404).send();
+	}
+
+	res.json(filteredTodos);
 });
 
 // GET /todos/:id
