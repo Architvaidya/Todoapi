@@ -43,6 +43,19 @@ app.get('/todos/:id', function (req, res) {
 	}
 });
 
+app.delete('/todos/:id', function(req, res){
+	var toddoId = parseInt(req.params.id, 10);
+	var matchedTodo = _.findWhere(todos, {id:toddoId});
+	if(matchedTodo){
+		todos = _.without(todos, matchedTodo);
+		res.json(matchedTodo);
+
+
+	}else{
+		res.status(404).json({error: 'The requested id not found'});
+	}
+});
+
 
 app.listen(PORT, function () {
 	console.log('Server started on ' + PORT + '!');
